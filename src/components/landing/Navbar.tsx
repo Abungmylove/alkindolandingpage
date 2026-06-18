@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Calculator, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/alk.jpeg";
 
 const navLinks = [
   { label: "Home", href: "#hero" },
@@ -14,6 +15,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/40">
@@ -36,6 +38,20 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
+          <button
+            onClick={() => navigate("/product-finder")}
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2"
+          >
+            <Sparkles size={16} />
+            Cari Produk
+          </button>
+          <button
+            onClick={() => navigate("/coating-calculator")}
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2"
+          >
+            <Calculator size={16} />
+            Kalkulator Cat
+          </button>
           <Button size="sm" variant="ocean" asChild>
             <a href="#contact">Request Quote</a>
           </Button>
@@ -73,6 +89,26 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
+              <button
+                onClick={() => {
+                  navigate("/product-finder");
+                  setOpen(false);
+                }}
+                className="py-3 px-4 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent rounded-md transition-colors min-h-[44px] flex items-center gap-2"
+              >
+                <Sparkles size={16} />
+                Cari Produk
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/coating-calculator");
+                  setOpen(false);
+                }}
+                className="py-3 px-4 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent rounded-md transition-colors min-h-[44px] flex items-center gap-2"
+              >
+                <Calculator size={16} />
+                Kalkulator Cat
+              </button>
               <Button variant="ocean" className="mt-2" asChild>
                 <a href="#contact" onClick={() => setOpen(false)}>Request Quote</a>
               </Button>

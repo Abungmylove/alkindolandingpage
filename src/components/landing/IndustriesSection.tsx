@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import constructionImg from "@/assets/industry-construction.jpg";
 import packagingImg from "@/assets/industry-packaging.jpg";
 import plasticCoatingImg from "@/assets/industry-plastic-coating.jpg";
@@ -8,26 +9,32 @@ import additives from "@/assets/additives.jpg";
 
 const industries = [
   {
+    id: "construction",
     title: "Construction",
     image: constructionImg,
   },
   {
+    id: "printing-packaging",
     title: "Printing & Packaging",
     image: packagingImg,
   },
   {
+    id: "plastic-coating",
     title: "Plastic Coating",
     image: plasticCoatingImg,
   },
   {
+    id: "metal-coating",
     title: "Metal Coating",
     image: metalCoatingImg,
   },
   {
+    id: "wood-coating",
     title: "Wood Coating",
     image: woodCoatingImg,
   },
   {
+    id: "additives",
     title: "Additives",
     image: additives,
   },
@@ -57,6 +64,12 @@ const item = {
 };
 
 const IndustriesSection = () => {
+  const navigate = useNavigate();
+
+  const handleIndustryClick = (industryId: string) => {
+    navigate(`/industry/${industryId}`);
+  };
+
   return (
     <section
       id="industries"
@@ -136,12 +149,14 @@ const IndustriesSection = () => {
             <motion.div
               key={ind.title}
               variants={item}
+              onClick={() => handleIndustryClick(ind.id)}
               className="
                 group
                 relative
                 overflow-hidden
                 rounded-[28px]
                 bg-slate-100
+                cursor-pointer
               "
             >
 

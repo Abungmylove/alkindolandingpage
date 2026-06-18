@@ -24,11 +24,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-heading font-semibold text-background mb-3">Certifications</h4>
-            <ul className="space-y-2 text-sm text-background/50">
-              <li>ISO 9001:2015</li>
-              <li>ISO 14001:2015</li>
-            </ul>
+        
           </div>
         </div>
         <div className="border-t border-background/10 pt-6 text-center text-sm text-background/40">

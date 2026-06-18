@@ -52,26 +52,19 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px]" />
       </motion.div>
 
-      {/* LOGO SEBELAH KANAN (POSISI VERTIKAL SUDAH DINAIKKAN) */}
+      {/* LOGO SEBELAH KANAN (HIDDEN DI MOBILE) */}
       <motion.div
         style={{ y: imageY }}
         initial={{ opacity: 0, x: 150 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="
-          /* Tampilan di HP/Tablet */
-          relative 
-          w-full 
-          flex 
-          justify-center 
-          px-4
-          mt-10
-
-          /* Tampilan di Laptop & PC Desktop */
+          hidden 
           lg:absolute 
+          lg:flex
           lg:mt-0
           lg:right-[-80px]   
-          lg:top-[20%]        /* KUNCI: Diubah dari top-1/2 ke top-[38%] untuk menarik logo naik ke atas */
+          lg:top-[20%]        
           lg:-translate-y-1/2
           lg:w-[50vw]        
           lg:max-w-[950px]   
@@ -84,8 +77,7 @@ const HeroSection = () => {
           src={secondImg}
           alt="NSR Logo"
           className="
-            w-[90%]
-            lg:w-full 
+            w-full 
             h-auto
             object-contain
             drop-shadow-sm
@@ -112,13 +104,16 @@ const HeroSection = () => {
           style={{ y: textY }}
           className="max-w-2xl md:max-w-3xl lg:max-w-2xl xl:max-w-3xl"
         >
+          {/* 🎯 UPGRADE DI SINI: Di HP berubah dari text-4xl jadi text-5xl biar lebih besar & mantap */}
           <h1
             className="
-              text-6xl
+              text-5xl
+              sm:text-6xl
               md:text-6xl
               lg:text-7xl
               font-extrabold 
-              leading-[0.5]
+              leading-[1.15]
+              md:leading-[1.1]
               tracking-tight
               text-slate-900
             "
@@ -131,7 +126,6 @@ const HeroSection = () => {
             Solutions for <br />
             Industry
           </h1>
-
           
         </motion.div>
       </div>
