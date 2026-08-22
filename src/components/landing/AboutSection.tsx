@@ -1,36 +1,34 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Eye } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Eye } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
-import Footer from "@/components/landing/Footer";
 
 // Data Foto Fasilitas Company Profile yang Menggantikan Card Lama
 const PRESTIGE_PHOTOS = [
   {
-    title: "Laboratorium R&D",
+    titleKey: "qualitySectionPhoto1",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop&q=60",
     className: "col-span-2 h-44"
   },
   {
-    title: "Fasilitas Produksi",
+    titleKey: "qualitySectionPhoto2",
     image: "https://images.unsplash.com/photo-1565034946487-077786996e27?w=800&auto=format&fit=crop&q=60",
     className: "col-span-1 h-44"
   },
   {
-    title: "Gudang Logistik",
+    titleKey: "qualitySectionPhoto3",
     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&auto=format&fit=crop&q=60",
     className: "col-span-1 h-44"
   },
   {
-    title: "Quality Control",
+    titleKey: "qualitySectionPhoto4",
     image: "https://images.unsplash.com/photo-1605235904827-2bc403612f0c?w=800&auto=format&fit=crop&q=60",
     className: "col-span-2 h-44"
   }
 ];
 
 const AboutUs = () => {
-  const navigate = useNavigate();
+  const { t } = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -44,13 +42,13 @@ const AboutUs = () => {
       <section className="bg-slate-50 py-20 border-b border-slate-100">
         <div className="container mx-auto px-6 max-w-4xl text-center space-y-4">
           <span className="text-xs font-bold text-blue-900 tracking-widest uppercase bg-blue-50 px-3 py-1 rounded-full">
-            Company Profile
+            {t("aboutPageLabel")}
           </span>
           <h1 className="text-4xl md:text-5xl font-bold font-heading text-slate-900 tracking-tight">
-            Mengenal PT Alkindo Mitraraya
+            {t("aboutPageTitle")}
           </h1>
           <p className="text-slate-500 max-w-2xl mx-auto text-base leading-relaxed">
-            Formulator dan produsen pelapis industri (*industrial coatings*) berkualitas tinggi yang berfokus pada solusi proteksi jangka panjang.
+            {t("aboutPageDesc")}
           </p>
         </div>
       </section>
@@ -62,15 +60,11 @@ const AboutUs = () => {
           {/* SISI KIRI: Narasi Dedikasi (Tetap dipertahankan sesuai image_8b6b07.png) */}
           <div className="space-y-6">
             <h2 className="text-3xl font-bold text-slate-900 font-heading leading-tight">
-              Dedikasi Pada Inovasi Polimer Tinggi
+              {t("aboutSectionTitle")}
             </h2>
             <div className="space-y-4 text-slate-600 text-sm leading-relaxed">
-              <p>
-                Sejak didirikan, PT Alkindo Mitraraya berkomitmen untuk menyediakan produk lapisan pelindung (*coating*) berbasis teknologi polimer mutakhir. Kami melayani berbagai sektor industri mulai dari manufaktur, farmasi, hingga infrastruktur maritim di seluruh Indonesia.
-              </p>
-              <p>
-                Setiap produk kami dirancang melalui riset laboratorium yang ketat untuk memastikan ketahanan maksimal terhadap korosi, tumpahan zat kimia ekstrem, maupun abrasi fisik.
-              </p>
+              <p>{t("aboutParagraph1")}</p>
+              <p>{t("aboutParagraph2")}</p>
             </div>
             
   
@@ -87,7 +81,7 @@ const AboutUs = () => {
                 {/* Efek Hover Zoom pada Image */}
                 <img 
                   src={photo.image} 
-                  alt={photo.title} 
+                  alt={t(photo.titleKey)} 
                   className="w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-50 transition-all duration-500"
                 />
                 {/* Gradasi Gelap Pelindung Teks */}
@@ -96,9 +90,9 @@ const AboutUs = () => {
                 {/* Teks Mini di Pojok Kiri Bawah Card */}
                 <div className="absolute bottom-0 left-0 p-4 w-full text-white">
                   <span className="flex items-center gap-1 text-[10px] text-blue-400 font-semibold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 mb-0.5">
-                    <Eye size={10} /> Operational
+                    <Eye size={10} /> {t("qualityOperationalLabel")}
                   </span>
-                  <p className="text-xs font-bold font-heading tracking-wide truncate">{photo.title}</p>
+                  <p className="text-xs font-bold font-heading tracking-wide truncate">{t(photo.titleKey)}</p>
                 </div>
               </div>
             ))}

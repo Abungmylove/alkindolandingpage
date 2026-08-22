@@ -5,27 +5,27 @@ import { Button } from "@/components/ui/button";
 const products = [
   {
     icon: FlaskConical,
-    title: "Polyethylene (PE)",
-    description: "High-density and low-density polyethylene resins for packaging, piping, and industrial applications.",
-    tags: ["HDPE", "LDPE", "LLDPE"],
+    title: "Acrylic",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    tags: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."],
   },
   {
     icon: Layers,
-    title: "Polypropylene (PP)",
-    description: "Versatile polypropylene compounds for automotive, textiles, and consumer goods manufacturing.",
-    tags: ["Homopolymer", "Copolymer", "Impact Modified"],
+    title: "Alkyd",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    tags: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."],
   },
   {
     icon: Pipette,
-    title: "PVC Compounds",
-    description: "Custom-formulated PVC compounds with precise specifications for construction and electrical industries.",
-    tags: ["Rigid", "Flexible", "Specialty"],
+    title: "Amino",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    tags: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."],
   },
   {
     icon: ShieldCheck,
-    title: "Engineering Plastics",
-    description: "High-performance engineering polymers for demanding applications requiring superior mechanical properties.",
-    tags: ["ABS", "Nylon", "Polycarbonate"],
+    title: "Additives",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    tags: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."],
   },
 ];
 

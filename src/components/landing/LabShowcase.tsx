@@ -1,22 +1,30 @@
 import { motion } from "framer-motion";
 import { Beaker, ShieldCheck, Zap } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const LabShowcase = () => {
+  const { t } = useLanguage();
+
   const capabilities = [
     {
       icon: Beaker,
-      title: "Custom Formulation",
-      description: "Our expert chemists develop tailored chemical solutions to meet your specific industrial requirements and performance specifications."
+      titleKey: "labCapability1Title",
+      descriptionKey: "labCapability1Desc",
     },
     {
       icon: ShieldCheck,
-      title: "Rigorous QC Testing",
-      description: "Every batch undergoes comprehensive quality control testing to ensure consistency, safety, and compliance with international standards."
+      titleKey: "labCapability2Title",
+      descriptionKey: "labCapability2Desc",
     },
     {
       icon: Zap,
-      title: "Advanced R&D Facility",
-      description: "State-of-the-art laboratory equipped with modern analytical instruments for precise formulation development and testing."
+      titleKey: "labCapability3Title",
+      descriptionKey: "labCapability3Desc",
+    },
+    {
+      icon: Zap,
+      titleKey: "labCapability4Title",
+      descriptionKey: "labCapability4Desc",
     }
   ];
 
@@ -48,7 +56,7 @@ const LabShowcase = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img
                   src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1000"
-                  alt="R&D Laboratory Facility"
+                  alt={t("labShowcaseLabel")}
                   className="w-full h-[500px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -66,21 +74,20 @@ const LabShowcase = () => {
           >
             <div>
               <span className="text-sm font-semibold tracking-widest uppercase text-secondary mb-3 block">
-                Research & Development
+                {t("labShowcaseLabel")}
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-                Innovation at Our Core
+                {t("labShowcaseTitle")}
               </h2>
               <p className="text-muted-foreground text-lg">
-                Our dedicated R&D team combines scientific expertise with cutting-edge technology 
-                to deliver superior chemical solutions that drive your business forward.
+                {t("labShowcaseDesc")}
               </p>
             </div>
 
             <div className="space-y-6">
               {capabilities.map((capability, index) => (
                 <motion.div
-                  key={capability.title}
+                  key={capability.titleKey}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -94,10 +101,10 @@ const LabShowcase = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-heading font-bold text-foreground mb-2">
-                      {capability.title}
+                      {t(capability.titleKey)}
                     </h3>
                     <p className="text-muted-foreground">
-                      {capability.description}
+                      {t(capability.descriptionKey)}
                     </p>
                   </div>
                 </motion.div>

@@ -1,39 +1,42 @@
 import { motion } from "framer-motion";
 import { MessageSquare, FlaskConical, ClipboardCheck, Truck } from "lucide-react";
-
-const steps = [
-  {
-    icon: <MessageSquare className="w-6 h-6 text-blue-600" />,
-    title: "1. Konsultasi Teknis",
-    desc: "Diskusikan spesifikasi material, area pengaplikasian, dan standarisasi ketahanan yang proyek Anda butuhkan."
-  },
-  {
-    icon: <FlaskConical className="w-6 h-6 text-purple-600" />,
-    title: "2. Formulasi Lab & Sampel",
-    desc: "Tim ahli kimia kami meracik formula khusus dan menyediakan sampel gratis untuk divalidasi oleh tim internal Anda."
-  },
-  {
-    icon: <ClipboardCheck className="w-6 h-6 text-emerald-600" />,
-    title: "3. Uji Coba Aplikasi",
-    desc: "Pendampingan teknis saat trial aplikasi untuk memastikan performa pelapisan bekerja 100% sempurna di lapangan."
-  },
-  {
-    icon: <Truck className="w-6 h-6 text-amber-600" />,
-    title: "4. Produksi & Pengiriman",
-    desc: "Produksi massal dengan QC ketat dan pengiriman terjadwal langsung ke lokasi pabrik atau area proyek Anda."
-  }
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Workflow = () => {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      icon: <MessageSquare className="w-6 h-6 text-blue-600" />,
+      title: t("workflowStep1Title"),
+      desc: t("workflowStep1Desc"),
+    },
+    {
+      icon: <FlaskConical className="w-6 h-6 text-purple-600" />,
+      title: t("workflowStep2Title"),
+      desc: t("workflowStep2Desc"),
+    },
+    {
+      icon: <ClipboardCheck className="w-6 h-6 text-emerald-600" />,
+      title: t("workflowStep3Title"),
+      desc: t("workflowStep3Desc"),
+    },
+    {
+      icon: <Truck className="w-6 h-6 text-amber-600" />,
+      title: t("workflowStep4Title"),
+      desc: t("workflowStep4Desc"),
+    }
+  ];
+
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
-            Alur Kerja Mitra
+            {t("workflowLabel")}
           </span>
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mt-3">
-            4 Langkah Solusi Pelapisan Industri
+            {t("workflowTitle")}
           </h2>
         </div>
 

@@ -1,299 +1,219 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FlaskConical, Layers, Pipette, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
-
-const products = [
-  {
-    id: "polyethylene",
-    icon: FlaskConical,
-    title: "Polyethylene (PE)",
-    description: "High-density and low-density polyethylene resins for packaging, piping, and industrial applications.",
-    tags: ["HDPE", "LDPE", "LLDPE"],
-    details: {
-      overview: "Polyethylene is one of the most widely used thermoplastics globally, known for its excellent chemical resistance, moisture barrier properties, and versatility in processing.",
-      applications: [
-        "Packaging materials (bottles, containers, films)",
-        "Piping systems for water and gas",
-        "Wire and cable insulation",
-        "Automotive components",
-        "Industrial containers and tanks"
-      ],
-      features: [
-        "Excellent chemical resistance",
-        "High impact strength",
-        "Good moisture barrier properties",
-        "Easy to process and mold",
-        "Food grade options available",
-        "Recyclable material"
-      ],
-      specifications: [
-        "Density range: 0.91 - 0.97 g/cm³",
-        "Melting point: 105 - 130°C",
-        "Tensile strength: 10 - 40 MPa",
-        "Available in various grades for different applications"
-      ]
-    }
-  },
-  {
-    id: "polypropylene",
-    icon: Layers,
-    title: "Polypropylene (PP)",
-    description: "Versatile polypropylene compounds for automotive, textiles, and consumer goods manufacturing.",
-    tags: ["Homopolymer", "Copolymer", "Impact Modified"],
-    details: {
-      overview: "Polypropylene is a versatile thermoplastic polymer known for its excellent chemical resistance, high melting point, and good fatigue resistance, making it ideal for various industrial applications.",
-      applications: [
-        "Automotive interior and exterior components",
-        "Textile and fiber products",
-        "Consumer goods and household items",
-        "Medical devices and packaging",
-        "Industrial containers and packaging"
-      ],
-      features: [
-        "High heat resistance",
-        "Excellent chemical resistance",
-        "Good fatigue resistance",
-        "Low density (lightweight)",
-        "High stiffness and strength",
-        "Food contact approved grades"
-      ],
-      specifications: [
-        "Density: 0.90 - 0.91 g/cm³",
-        "Melting point: 160 - 170°C",
-        "Tensile strength: 25 - 40 MPa",
-        "Available in homopolymer and copolymer grades"
-      ]
-    }
-  },
-  {
-    id: "pvc-compounds",
-    icon: Pipette,
-    title: "PVC Compounds",
-    description: "Custom-formulated PVC compounds with precise specifications for construction and electrical industries.",
-    tags: ["Rigid", "Flexible", "Specialty"],
-    details: {
-      overview: "PVC compounds are custom-formulated materials that combine polyvinyl chloride resin with various additives to achieve specific properties for diverse industrial applications.",
-      applications: [
-        "Construction materials (pipes, profiles, fittings)",
-        "Electrical cable insulation",
-        "Medical tubing and devices",
-        "Automotive interior components",
-        "Flooring and wall coverings"
-      ],
-      features: [
-        "Excellent flame retardancy",
-        "Good chemical resistance",
-        "Weather and UV stability",
-        "Customizable hardness and flexibility",
-        "Cost-effective solution",
-        "Wide color range available"
-      ],
-      specifications: [
-        "Hardness range: 40 - 95 Shore A",
-        "Density: 1.2 - 1.5 g/cm³",
-        "Operating temperature: -20°C to 60°C",
-        "Custom formulations available"
-      ]
-    }
-  },
-  {
-    id: "engineering-plastics",
-    icon: ShieldCheck,
-    title: "Engineering Plastics",
-    description: "High-performance engineering polymers for demanding applications requiring superior mechanical properties.",
-    tags: ["ABS", "Nylon", "Polycarbonate"],
-    details: {
-      overview: "Engineering plastics are high-performance polymers designed for applications that require superior mechanical properties, thermal stability, and chemical resistance beyond standard plastics.",
-      applications: [
-        "Automotive structural components",
-        "Electronic housings and connectors",
-        "Industrial machinery parts",
-        "Medical equipment",
-        "Aerospace components"
-      ],
-      features: [
-        "High mechanical strength",
-        "Excellent thermal stability",
-        "Superior chemical resistance",
-        "Low creep and deformation",
-        "Dimensional stability",
-        "Long service life"
-      ],
-      specifications: [
-        "Tensile strength: 40 - 150 MPa",
-        "Operating temperature: -40°C to 150°C",
-        "Various grades available (ABS, Nylon, PC, etc.)",
-        "Reinforced options with glass/carbon fiber"
-      ]
-    }
-  }
-];
+import { fetchProductById, type Product } from "@/services/productService";
+import { ArrowLeft, Download, Mail, Lock, FileText } from "lucide-react";
 
 const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  
-  const product = products.find(p => p.id === productId);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!product) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (!productId) {
+      setError("ID produk tidak ditemukan pada URL.");
+      setLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+    const loadProduct = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const item = await fetchProductById(productId);
+        if (!isMounted) return;
+
+        if (!item) {
+          setError("Produk tidak ditemukan.");
+          setProduct(null);
+        } else {
+          setProduct(item);
+        }
+      } catch (_error) {
+        if (!isMounted) return;
+        setError("Terjadi kesalahan saat memuat detail produk.");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadProduct();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [productId]);
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch (_error) {
+      // Clipboard mungkin tidak tersedia di semua browser.
+    }
+  };
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
-          <Button onClick={() => navigate("/")}>Back to Home</Button>
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-6">
+        <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-lg text-center">
+          <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-slate-900" />
+          <p className="text-lg font-semibold text-slate-900">Memuat detail produk...</p>
+          <p className="mt-2 text-sm text-slate-600">Silakan tunggu sementara kami mengambil data.</p>
         </div>
       </div>
     );
   }
 
-  const ProductIcon = product.icon;
+  if (error || !product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-6 py-16">
+        <div className="rounded-3xl border border-rose-200 bg-white p-10 shadow-lg text-center">
+          <h1 className="mb-4 text-3xl font-bold text-rose-700">Produk Tidak Ditemukan</h1>
+          <p className="mb-6 text-sm text-slate-600">{error ?? "Detail produk tidak tersedia saat ini."}</p>
+          <Button onClick={() => navigate("/product-finder")}>Kembali ke Katalog</Button>
+        </div>
+      </div>
+    );
+  }
+
+  const specs = [
+    { label: "Regions", value: product.region ?? "–" },
+    { label: "Product Group", value: product.productGroup ?? "–" },
+    { label: "Application", value: product.application ?? "–" },
+    { label: "Chemistry", value: product.chemistry ?? "–" },
+    { label: "Technology", value: product.technology ?? "–" }
+  ];
+
+  const descriptionParagraphs = [
+    product.description,
+    "Formulasi ini dirancang untuk aplikasi industri berat yang memerlukan proteksi durabel dan kinerja tinggi dalam kondisi ekstrem.",
+    "Solusi ini mendukung struktur baja, lantai pabrik, dan fasilitas offshore dengan standar teknis yang ketat dan jaminan performa jangka panjang."
+  ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
-      
-      <main className="pt-24 pb-16">
-        <div className="container mx-auto px-6">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="mb-8"
-          >
-            <Button
-              variant="ghost"
-              onClick={() => navigate(-1)}
-              className="gap-2"
-            >
-              <ArrowLeft size={16} />
-              Back
-            </Button>
-          </motion.div>
 
-          {/* Header Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-12"
+      <main className="mx-auto max-w-7xl px-6 py-12">
+        <div className="space-y-10">
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/product-finder")}
+            className="gap-2 text-slate-700 hover:text-slate-900"
           >
-            <div className="flex items-start gap-6 mb-6">
-              <div className="w-20 h-20 rounded-2xl gradient-ocean-light flex items-center justify-center shrink-0">
-                <ProductIcon size={40} className="text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">
-                  {product.title}
-                </h1>
-                <div className="flex flex-wrap gap-2">
-                  {product.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-4 py-2 text-sm font-medium rounded-full bg-accent text-accent-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+            <ArrowLeft size={16} /> Kembali ke Katalog
+          </Button>
+
+          <div className="grid gap-10 lg:grid-cols-[65%_35%]">
+            <section className="rounded-[28px] border border-slate-200 bg-white p-10 shadow-sm">
+              <div className="space-y-8">
+                <div className="space-y-6">
+                  <h1 className="text-4xl font-bold tracking-tight text-slate-900">{product.name}</h1>
+                  <div className="space-y-5 text-slate-700 text-base leading-relaxed">
+                    {descriptionParagraphs.map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-[24px] bg-slate-50 p-8">
+                  <h2 className="mb-6 text-2xl font-semibold text-slate-900">Technical Specifications</h2>
+                  <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white">
+                    <table className="w-full border-separate border-spacing-0">
+                      <tbody>
+                        {specs.map((spec, index) => (
+                          <tr key={spec.label} className={index < specs.length - 1 ? "border-b border-slate-200" : ""}>
+                            <th className="w-1/3 px-6 py-5 text-left text-sm font-semibold uppercase tracking-[0.18em] text-slate-700 align-top">
+                              {spec.label}
+                            </th>
+                            <td className="px-6 py-5 text-sm font-medium text-slate-900 align-top">
+                              {spec.value}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-4xl">
-              {product.description}
-            </p>
-          </motion.div>
+            </section>
 
-          {/* Detail Sections */}
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Overview */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="glass-card rounded-xl p-8"
-            >
-              <h2 className="text-2xl font-heading font-bold text-foreground mb-4">Overview</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {product.details.overview}
-              </p>
-            </motion.div>
+            <aside className="space-y-6">
+              <div className="rounded-[28px] bg-slate-50 p-8 shadow-sm border border-slate-200 lg:sticky lg:top-24">
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-slate-900">What would you like to do next?</h2>
+                  <p className="text-sm text-slate-600">Pilih tindakan yang paling sesuai untuk mendapatkan sampel, SDS, atau bantuan tim kami.</p>
+                </div>
 
-            {/* Applications */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="glass-card rounded-xl p-8"
-            >
-              <h2 className="text-2xl font-heading font-bold text-foreground mb-4">Applications</h2>
-              <ul className="space-y-3">
-                {product.details.applications.map((app, index) => (
-                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                    <span className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
-                    {app}
+                <Button
+                  className="w-full rounded-3xl bg-blue-900 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-900/10 hover:bg-blue-800"
+                  onClick={() => window.location.href = "mailto:sales@alkindo.com?subject=Request%20Sample"}
+                >
+                  REQUEST SAMPLE
+                </Button>
+
+                <div className="space-y-3 pt-4">
+                  <button
+                    className="flex w-full items-center gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                    onClick={handleCopyLink}
+                  >
+                    <Mail className="h-4 w-4 text-slate-500" />
+                    Send product link
+                  </button>
+                  <button
+                    className="flex w-full items-center gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                    onClick={() => window.location.href = "mailto:sales@alkindo.com?subject=Request%20SDS"}
+                  >
+                    <FileText className="h-4 w-4 text-slate-500" />
+                    Request SDS
+                  </button>
+                  <button
+                    className="flex w-full items-center gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                    onClick={() => navigate("/product-finder")}
+                  >
+                    <Lock className="h-4 w-4 text-slate-500" />
+                    Contact our team
+                  </button>
+                </div>
+              </div>
+
+              <div className="rounded-[28px] bg-white p-8 shadow-sm border border-slate-200">
+                <div className="mb-6 flex items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-900">Download technical datasheets</h3>
+                    <p className="text-sm text-slate-600">Pilih format dokumen yang dibutuhkan.</p>
+                  </div>
+                  <Download className="h-5 w-5 text-slate-500" />
+                </div>
+
+                <ul className="space-y-3 text-sm text-slate-700">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-slate-900" />
+                    English - A4
                   </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Features */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="glass-card rounded-xl p-8"
-            >
-              <h2 className="text-2xl font-heading font-bold text-foreground mb-4">Key Features</h2>
-              <ul className="space-y-3">
-                {product.details.features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                    <span className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
-                    {feature}
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-slate-900" />
+                    English - Letter
                   </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Specifications */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="glass-card rounded-xl p-8"
-            >
-              <h2 className="text-2xl font-heading font-bold text-foreground mb-4">Technical Specifications</h2>
-              <ul className="space-y-3">
-                {product.details.specifications.map((spec, index) => (
-                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                    <span className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
-                    {spec}
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-slate-900" />
+                    Indonesian - A4
                   </li>
-                ))}
-              </ul>
-            </motion.div>
+                </ul>
+              </div>
+            </aside>
           </div>
-
-          {/* CTA Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-12 text-center"
-          >
-            <div className="glass-card rounded-xl p-8 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-heading font-bold text-foreground mb-4">
-                Interested in {product.title}?
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Contact us for more information, pricing, or to request a sample.
-              </p>
-              <Button variant="ocean" size="lg" onClick={() => navigate("/#contact")}>
-                Contact Us
-              </Button>
-            </div>
-          </motion.div>
         </div>
       </main>
 

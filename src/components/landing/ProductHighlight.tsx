@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ProductsSection = () => {
+  const { t } = useLanguage();
+  
   return (
     <section
       id="about"
@@ -29,7 +32,7 @@ const ProductsSection = () => {
               mb-6
             "
           >
-            About Us
+            {t("smallLabel")}
           </span>
 
           {/* TITLE */}
@@ -45,8 +48,9 @@ const ProductsSection = () => {
               mb-8
             "
           >
-            Your Partner in
-              Chemicals
+            {t("title1")}
+              <br/>
+              {t("title2")}
           
           </h2>
 
@@ -62,19 +66,11 @@ const ProductsSection = () => {
             "
           >
             <p>
-              PT Nova Sindo Raya is a company specializing in
-              industrial coating and chemical products.
-              We provide comprehensive solutions ranging from
-              plastic coating, metal coating, wood coating,
-              to high-quality chemical components.
+              {t("aboutDesc1")}
             </p>
 
             <p>
-              With years of experience serving various
-              industrial sectors — from construction and
-              packaging to manufacturing — we are committed
-              to delivering reliable products and professional
-              services with international quality standards.
+              {t("aboutDesc2")}
             </p>
           </div>
 
@@ -84,4 +80,4 @@ const ProductsSection = () => {
   );
 };
 
-export default AboutSection;
+export default ProductsSection;

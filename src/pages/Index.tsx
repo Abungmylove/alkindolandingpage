@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Award } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/landing/Navbar";
 import HeroSection from "@/components/landing/HeroSection";
 import AboutSection from "@/components/landing/AboutSection";
@@ -22,19 +23,19 @@ import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <HeroSection />
       <AboutSection />
-      <VisiMisi />
-      <IndustriesSection />
-      <ProductSection />
-      <QualitySection />
-      <Workflow />
       <LabShowcase />
+      <IndustriesSection />
+      
+      <ProductSection />
       <CompanyStats />
+      
       
       {/* ISO Standards Promotion Banner */}
       <motion.section
@@ -55,10 +56,10 @@ const Index = () => {
               </div>
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-2xl md:text-3xl font-heading font-bold text-foreground mb-3">
-                  Committed to International Standards
+                  {t("isoBannerTitle")}
                 </h3>
                 <p className="text-muted-foreground mb-0">
-                  Our operations are certified under ISO 9001:2015, ISO 14001:2015, ISO 45001:2018, and ISO 12944 standards, ensuring the highest quality, environmental responsibility, and safety in every product we deliver.
+                  {t("isoBannerDesc")}
                 </p>
               </div>
               <div className="flex-shrink-0">
@@ -68,7 +69,7 @@ const Index = () => {
                   onClick={() => navigate("/iso-standards")}
                   className="whitespace-nowrap"
                 >
-                  Lihat Sertifikasi ISO
+                  {t("viewISO")}
                 </Button>
               </div>
             </div>

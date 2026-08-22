@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const VisiMisi= () => {
+const VisiMisi = () => {
+  const { t } = useLanguage();
+
   return (
     <section
       id="visi-misi"
@@ -29,7 +32,7 @@ const VisiMisi= () => {
               mb-6
             "
           >
-            Vision, Mission, and Core Value
+            {t("visimisiLabel")}
           </span>
 
           {/* TITLE */}
@@ -45,8 +48,7 @@ const VisiMisi= () => {
               mb-8
             "
           >
-            Vision
-          
+            {t("visimisiVisionTitle")}
           </h2>
 
           {/* DESCRIPTION */}
@@ -60,55 +62,40 @@ const VisiMisi= () => {
               mx-auto
             "
           >
-            <p>
-To be acknowledged as professional top chemical trading company with Local and Global acceptance
+            <p>{t("visimisiVisionDesc")}</p>
+            <h2
+              className="
+                text-4xl
+                md:text-5xl
+                lg:text-6xl
+                font-black
+                leading-[1]
+                tracking-tight
+                text-slate-900
+                mb-8
+              "
+            >
+              {t("visimisiMissionTitle")}
+            </h2>
 
-            </p>
-  <h2
-            className="
-              text-4xl
-              md:text-5xl
-              lg:text-6xl
-              font-black
-              leading-[1]
-              tracking-tight
-              text-slate-900
-              mb-8
-            "
-          >
-            Mission
-          
-          </h2>
+            <p>{t("visimisiMissionDesc")}</p>
 
-            <p>
-To supply quality products to maintain our customers satisfactions in different industries
-Have a wider range of products for wider range of Industries, segments and applications
+            <h2
+              className="
+                text-4xl
+                md:text-5xl
+                lg:text-6xl
+                font-black
+                leading-[1]
+                tracking-tight
+                text-slate-900
+                mb-8
+              "
+            >
+              {t("visimisiCoreValueTitle")}
+            </h2>
 
-            </p>
-              <h2
-            className="
-              text-4xl
-              md:text-5xl
-              lg:text-6xl
-              font-black
-              leading-[1]
-              tracking-tight
-              text-slate-900
-              mb-8
-            "
-          >
-            Core Value
-          
-          </h2>
-
- <p>
-Professional,
-Trustworthy,
-Reliable,
-Innovative,
-Persistence and 
-Agile.
-            </p>
+            <p>{t("visimisiCoreValueDesc")}</p>
 
 
 

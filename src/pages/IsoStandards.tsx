@@ -35,34 +35,6 @@ const isoStandards = [
       "Pollution prevention"
     ]
   },
-  {
-    id: "iso-45001",
-    title: "ISO 45001:2018",
-    subtitle: "Occupational Health & Safety",
-    icon: CheckCircle,
-    description: "We prioritize workplace safety with a comprehensive occupational health and safety management system. Our commitment ensures a safe working environment for all employees and stakeholders.",
-    benefits: [
-      "Zero accident culture",
-      "Risk identification",
-      "Employee safety training",
-      "Compliance with regulations",
-      "Continuous safety improvement"
-    ]
-  },
-  {
-    id: "iso-12944",
-    title: "ISO 12944",
-    subtitle: "Corrosion Protection",
-    icon: Droplets,
-    description: "We follow international standards for corrosion protection of steel structures. Our coating systems are designed and applied according to ISO 12944 specifications for optimal durability.",
-    benefits: [
-      "Extended asset life",
-      "Cost-effective protection",
-      "Industry-standard coatings",
-      "Corrosion prevention",
-      "Technical compliance"
-    ]
-  }
 ];
 
 const container = {

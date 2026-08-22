@@ -1,44 +1,12 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 import constructionImg from "@/assets/industry-construction.jpg";
 import packagingImg from "@/assets/industry-packaging.jpg";
 import plasticCoatingImg from "@/assets/industry-plastic-coating.jpg";
 import metalCoatingImg from "@/assets/industry-metal-coating.jpg";
 import woodCoatingImg from "@/assets/industry-wood-coating.jpg";
 import additives from "@/assets/additives.jpg";
-
-const industries = [
-  {
-    id: "construction",
-    title: "Construction",
-    image: constructionImg,
-  },
-  {
-    id: "printing-packaging",
-    title: "Printing & Packaging",
-    image: packagingImg,
-  },
-  {
-    id: "plastic-coating",
-    title: "Plastic Coating",
-    image: plasticCoatingImg,
-  },
-  {
-    id: "metal-coating",
-    title: "Metal Coating",
-    image: metalCoatingImg,
-  },
-  {
-    id: "wood-coating",
-    title: "Wood Coating",
-    image: woodCoatingImg,
-  },
-  {
-    id: "additives",
-    title: "Additives",
-    image: additives,
-  },
-];
 
 const container = {
   hidden: {},
@@ -65,10 +33,45 @@ const item = {
 
 const IndustriesSection = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleIndustryClick = (industryId: string) => {
     navigate(`/industry/${industryId}`);
   };
+
+  // Buat industries array dengan id dan image saja, title di-render dengan t()
+  const industries = [
+    {
+      id: "construction",
+      translationKey: "industryConstruction",
+      image: constructionImg,
+    },
+    {
+      id: "printing-packaging",
+      translationKey: "industryPrintingPackaging",
+      image: packagingImg,
+    },
+    {
+      id: "plastic-coating",
+      translationKey: "industryPlasticCoating",
+      image: plasticCoatingImg,
+    },
+    {
+      id: "metal-coating",
+      translationKey: "industryMetalCoating",
+      image: metalCoatingImg,
+    },
+    {
+      id: "wood-coating",
+      translationKey: "industryWoodCoating",
+      image: woodCoatingImg,
+    },
+    {
+      id: "additives",
+      translationKey: "industryAdditives",
+      image: additives,
+    },
+  ];
 
   return (
     <section
@@ -97,7 +100,7 @@ const IndustriesSection = () => {
               block
             "
           >
-            Industries & Services
+            {t("industriesLabel")}
           </span>
 
           <h2
@@ -110,9 +113,9 @@ const IndustriesSection = () => {
               mb-5
             "
           >
-            Serving Various
+            {t("industriesTitle1")}
             <span className="text-blue-600">
-              {" "}Industry Sectors
+              {" "}{t("industriesTitle2")}
             </span>
           </h2>
 
@@ -125,8 +128,7 @@ const IndustriesSection = () => {
               leading-relaxed
             "
           >
-            We provide high-quality coating and component
-            solutions for various industrial needs.
+            {t("industriesDesc")}
           </p>
 
         </motion.div>
@@ -147,7 +149,7 @@ const IndustriesSection = () => {
 
           {industries.map((ind) => (
             <motion.div
-              key={ind.title}
+              key={ind.id}
               variants={item}
               onClick={() => handleIndustryClick(ind.id)}
               className="
@@ -165,7 +167,7 @@ const IndustriesSection = () => {
 
                 <img
                   src={ind.image}
-                  alt={ind.title}
+                  alt={t(ind.translationKey)}
                   loading="lazy"
                   className="
                     w-full
@@ -201,7 +203,7 @@ const IndustriesSection = () => {
                     tracking-tight
                   "
                 >
-                  {ind.title}
+                  {t(ind.translationKey)}
                 </h3>
 
               </div>

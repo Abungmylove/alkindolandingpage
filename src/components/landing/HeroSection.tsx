@@ -6,11 +6,13 @@ import {
 } from "framer-motion";
 
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-import heroBg from "@/assets/bg5.jpeg";
-import secondImg from "@/assets/bg4.png";
+import heroBg from "@/assets/wb.jpeg";
+import secondImg from "@/assets/Alkindo.png";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
 
   const { scrollY } = useScroll();
 
@@ -75,7 +77,7 @@ const HeroSection = () => {
       >
         <img
           src={secondImg}
-          alt="NSR Logo"
+          alt="Alkindo Mitraraya Logo"
           className="
             w-full 
             h-auto
@@ -118,13 +120,12 @@ const HeroSection = () => {
               text-slate-900
             "
           >
-            High Quality <br />
+            {t("heroTitle1")} <br />
             <span className="text-amber-500">
-              Coatings & <br /> Additives
+              {t("heroTitle2")}
             </span>
             <br />
-            Solutions for <br />
-            Industry
+            {t("heroTitle3")}
           </h1>
           
         </motion.div>

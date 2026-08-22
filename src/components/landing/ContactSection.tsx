@@ -7,6 +7,7 @@ import { Mail, MapPin, Phone, Send, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BANNED_DOMAINS = [
   "gmail.com",
@@ -32,12 +33,12 @@ const ContactSection = () => {
   const [emailError, setEmailError] = useState<string>("");
 
   const productInterests = [
-    "Construction",
-    "Printing & Packaging",
-    "Plastic Coating",
-    "Metal Coating",
-    "Wood Coating",
-    "Additives",
+    { id: "construction", labelKey: "industryConstruction" },
+    { id: "printing-packaging", labelKey: "industryPrintingPackaging" },
+    { id: "plastic-coating", labelKey: "industryPlasticCoating" },
+    { id: "metal-coating", labelKey: "industryMetalCoating" },
+    { id: "wood-coating", labelKey: "industryWoodCoating" },
+    { id: "additives", labelKey: "industryAdditives" },
   ];
 
   const handleInterestChange = (interest: string, checked: boolean) => {
@@ -48,12 +49,14 @@ const ContactSection = () => {
     }
   };
 
+  const { t } = useLanguage();
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
     const domain = email.split("@")[1]?.toLowerCase();
     
     if (domain && BANNED_DOMAINS.includes(domain)) {
-      setEmailError("Harap gunakan email resmi perusahaan Anda (bukan Gmail/Yahoo).");
+      setEmailError(t("contactFormErrorBusinessEmail"));
     } else {
       setEmailError("");
     }
@@ -77,8 +80,8 @@ const ContactSection = () => {
     if (!isBusinessEmail(email)) {
       setLoading(false);
       toast({
-        title: "Business Email Required",
-        description: "Please use your company email address. Free email providers such as Gmail, Yahoo, Outlook, and similar services are not accepted.",
+        title: t("contactFormErrorBusinessEmail"),
+        description: t("contactFormEmailHelp"),
         variant: "destructive",
       });
       return;
@@ -99,8 +102,8 @@ const ContactSection = () => {
       setLoading(false);
       window.open(`https://wa.me/${nomorWA}?text=${teksPesan}`, "_blank");
       toast({
-        title: "Redirecting to WhatsApp...",
-        description: "Please send the pre-filled message in your chat app.",
+        title: t("contactToastRedirectTitle"),
+        description: t("contactToastRedirectDesc"),
       });
       target.reset();
       setSelectedInterests([]);
@@ -119,14 +122,13 @@ const ContactSection = () => {
           className="text-center mb-16"
         >
           <span className="text-sm font-semibold tracking-widest uppercase text-secondary mb-3 block">
-            Contact Us
+            {t("contactSectionLabel")}
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            Ready to Discuss?
+            {t("contactSectionTitle")}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Our team is ready to help with your industrial coating and chemical needs. 
-            Contact us for a free consultation.
+            {t("contactSectionSubtitle")}
           </p>
         </motion.div>
 
@@ -140,10 +142,10 @@ const ContactSection = () => {
             className="lg:col-span-2 space-y-8"
           >
             {[
-              { icon: MapPin, title: "Address", text: "Jl. Jend Gatot Subroto KM. 8, Kadu Jaya, Tangerang, Kabupaten Tangerang, Banten 15810" },
-              { icon: Phone, title: "Phone", text: "+62 xxx xxxx xxxx" },
-              { icon: Mail, title: "Email", text: "admin@alkindo.com" },
-            ].map((info) => (
+              { icon: MapPin, title: t("contactInfoAddress"), text: t("contactInfoAddress") },
+              { icon: Phone, title: t("contactInfoPhone"), text: t("contactInfoPhone") },
+              { icon: Mail, title: t("contactInfoEmail"), text: t("contactInfoEmail") },
+            ].map((info, index) => (
               <div key={info.title} className="flex gap-4">
                 <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center shrink-0">
                   <info.icon size={20} className="text-primary" />
@@ -162,7 +164,7 @@ const ContactSection = () => {
               className="inline-flex items-center gap-3 px-6 py-3 rounded-lg bg-[hsl(142,70%,40%)] text-white font-medium hover:bg-[hsl(142,70%,35%)] transition-colors min-h-[48px]"
             >
               <MessageCircle size={20} />
-              Chat via WhatsApp
+              {t("whatsappChat")}
             </a>
 
             {/* GOOGLE MAPS AKTIF (Menggantikan kode placeholder kemarin) */}
@@ -191,23 +193,23 @@ const ContactSection = () => {
           >
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">Full Name</label>
-                <Input required name="fullName" placeholder="Your Name" className="min-h-[44px]" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("contactFormFullName")}</label>
+                <Input required name="fullName" placeholder={t("contactFormPlaceholderName")} className="min-h-[44px]" />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">Company</label>
-                <Input required name="company" placeholder="Company name" className="min-h-[44px]" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("contactFormCompany")}</label>
+                <Input required name="company" placeholder={t("contactFormPlaceholderCompany")} className="min-h-[44px]" />
               </div>
             </div>
             
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("contactFormEmail")}</label>
                 <Input 
                   required 
                   name="email" 
                   type="email" 
-                  placeholder="email@company.com" 
+                  placeholder={t("contactFormPlaceholderEmail")} 
                   className="min-h-[44px]" 
                   onChange={handleEmailChange}
                 />
@@ -217,30 +219,27 @@ const ContactSection = () => {
                   </p>
                 )}
                 <p className="text-xs text-muted-foreground mt-1.5">
-                  Please use your company email address (e.g. <a href="mailto:name@company.com" className="text-primary hover:underline">name@company.com</a>)
+                  {t("contactFormEmailHelp").replace("name@company.com", "name@company.com")}
                 </p>
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">Phone</label>
-                <Input name="phone" placeholder="+62 xxx xxxx" className="min-h-[44px]" />
+                <label className="text-sm font-medium text-foreground mb-1.5 block">{t("contactFormPhone")}</label>
+                <Input name="phone" placeholder={t("contactFormPlaceholderPhone")} className="min-h-[44px]" />
               </div>
             </div>
             
             <div>
-              <label className="text-sm font-medium text-foreground mb-3 block">Product Interest</label>
+              <label className="text-sm font-medium text-foreground mb-3 block">{t("contactFormProductInterest")}</label>
               <div className="grid grid-cols-2 gap-3">
                 {productInterests.map((interest) => (
-                  <div key={interest} className="flex items-center space-x-2">
+                  <div key={interest.id} className="flex items-center space-x-2">
                     <Checkbox
-                      id={interest}
-                      checked={selectedInterests.includes(interest)}
-                      onCheckedChange={(checked) => handleInterestChange(interest, checked as boolean)}
+                      id={interest.id}
+                      checked={selectedInterests.includes(interest.id)}
+                      onCheckedChange={(checked) => handleInterestChange(interest.id, checked as boolean)}
                     />
-                    <Label
-                      htmlFor={interest}
-                      className="text-sm font-normal cursor-pointer"
-                    >
-                      {interest}
+                    <Label htmlFor={interest.id} className="text-sm font-normal cursor-pointer">
+                      {t(interest.labelKey)}
                     </Label>
                   </div>
                 ))}
@@ -248,13 +247,13 @@ const ContactSection = () => {
             </div>
             
             <div>
-              <label className="text-sm font-medium text-foreground mb-1.5 block">Message</label>
-              <Textarea required name="message" rows={4} placeholder="Tell us about your coating or product needs..." />
+              <label className="text-sm font-medium text-foreground mb-1.5 block">{t("contactFormMessage")}</label>
+              <Textarea required name="message" rows={4} placeholder={t("contactFormPlaceholderMessage")} />
             </div>
             
             <Button type="submit" variant="ocean" size="lg" className="w-full min-h-[48px]" disabled={loading || !!emailError}>
-              {loading ? "Redirecting..." : (
-                <>Send Message <Send size={16} /></>
+              {loading ? t("contactButtonRedirecting") : (
+                <>{t("contactButtonSend")} <Send size={16} /></>
               )}
             </Button>
           </motion.form>

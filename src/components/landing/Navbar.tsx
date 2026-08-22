@@ -3,19 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Calculator, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LanguageToggle } from "@/components/ui/LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 import logo from "@/assets/alk.jpeg";
-
-const navLinks = [
-  { label: "Home", href: "#hero" },
-  { label: "About Us", href: "#about" },
-  { label: "Industries", href: "#industries" },
-  { label: "Our Partners", href: "#partners" },
-  { label: "Contact Us", href: "#contact" },
-];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { label: t("home"), href: "#hero" },
+    { label: t("about"), href: "#about" },
+    { label: t("industries"), href: "#industries" },
+    { label: t("partners"), href: "#partners" },
+    { label: t("contact"), href: "#contact" },
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/40">
@@ -23,7 +26,7 @@ const Navbar = () => {
         {/* Logo - Centered */}
         <div className="flex-1 flex justify-center md:justify-start">
           <a href="#hero" className="flex flex-col items-center gap-2">
-            <img src={logo} alt="PT Nova Sindo Raya" className="h-10 md:h-14 w-auto" />
+            <img src={logo} alt="Alkindo Mitraraya" className="h-10 md:h-14 w-auto" />
           </a>
         </div>
 
@@ -43,22 +46,24 @@ const Navbar = () => {
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2"
           >
             <Sparkles size={16} />
-            Cari Produk
+            {t("findProduct")}
           </button>
           <button
             onClick={() => navigate("/coating-calculator")}
             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center gap-2"
           >
             <Calculator size={16} />
-            Kalkulator Cat
+            {t("calculator")}
           </button>
+          <LanguageToggle />
           <Button size="sm" variant="ocean" asChild>
-            <a href="#contact">Request Quote</a>
+            <a href="#contact">{t("requestQuote")}</a>
           </Button>
         </div>
 
         {/* Mobile toggle - Right aligned */}
-        <div className="flex-1 flex justify-end md:hidden">
+        <div className="flex-1 flex justify-end items-center gap-2 md:hidden">
+          <LanguageToggle />
           <button
             className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-foreground"
             onClick={() => setOpen(!open)}
@@ -97,7 +102,7 @@ const Navbar = () => {
                 className="py-3 px-4 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent rounded-md transition-colors min-h-[44px] flex items-center gap-2"
               >
                 <Sparkles size={16} />
-                Cari Produk
+                {t("findProduct")}
               </button>
               <button
                 onClick={() => {
@@ -107,10 +112,10 @@ const Navbar = () => {
                 className="py-3 px-4 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-accent rounded-md transition-colors min-h-[44px] flex items-center gap-2"
               >
                 <Calculator size={16} />
-                Kalkulator Cat
+                {t("calculator")}
               </button>
               <Button variant="ocean" className="mt-2" asChild>
-                <a href="#contact" onClick={() => setOpen(false)}>Request Quote</a>
+                <a href="#contact" onClick={() => setOpen(false)}>{t("requestQuote")}</a>
               </Button>
             </div>
           </motion.div>

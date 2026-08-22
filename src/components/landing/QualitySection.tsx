@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import shivaImg from "@/assets/shiva.jpeg";
 import alkImg from "@/assets/alk.jpeg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const industries = [
   {
@@ -12,6 +13,8 @@ const industries = [
 ];
 
 const IndustriesSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section
       id="partners"
@@ -31,9 +34,9 @@ const IndustriesSection = () => {
             mb-5
           "
         >
-          Who We
+          {t("qualityPartnersTitlePrefix")}
           <span className="text-blue-600">
-            {" "}Work With
+            {" "}{t("qualityPartnersTitleAccent")}
           </span>
         </h2>
 
@@ -46,8 +49,7 @@ const IndustriesSection = () => {
             leading-relaxed
           "
         >
-          We provide high-quality coating and component
-          solutions for various industrial needs.
+          {t("qualityPartnersDesc")}
         </p>
 
       </div>
